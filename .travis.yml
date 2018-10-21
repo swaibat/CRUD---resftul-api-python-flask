@@ -1,0 +1,23 @@
+language: python
+
+python:
+  - 3.7
+  
+services:
+  - postgresql
+  
+install:
+  - pip install -r requirements.txt
+  
+before_script:
+  - psql -c 'create database ride_my_way;' -U postgres
+  - cp apiV2/models/database.yml.travis apiV2/models/database.yml
+
+script:
+  - cd apiV1
+  - nosetests --with-coverage --cover-package=routes tests/*
+  - cd ../apiV2
+  - nosetests --with-coverage --cover-package=routes tests/*
+  
+after_success: 
+  - coveralls
