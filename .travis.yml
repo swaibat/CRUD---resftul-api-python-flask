@@ -1,11 +1,9 @@
 language: python
-
 python:
-  - 3.6
-  
-  
+   "3.7"
 install:
-  - Flask         1.0.2
-  - Flask-RESTful 0.3.6
-  
-script: python api.py
+    "pip install -r requirements.txt"
+script:
+    - nosetests --with-coverage --cover-erase --cover-package=app/ && coverage report
+after_success:
+    - "coveralls"
